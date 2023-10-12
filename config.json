@@ -1,6 +1,6 @@
 {
 	"name": "Choice Columns",
-	"description": "Tag radio or checkbox fields with the action tag <span style='font-family:monospace'>@CHOICE-COLUMNS=?</span> to specify the number of columns the choices will be displayed in.",
+	"description": "Tag radio or checkbox fields with the action tag <code>@CHOICE-COLUMNS=?</code> to specify the number of columns the choices will be displayed in.<br>Choices are placed into columns across-then-down for horizontal alignment, and down-then-across for vertical alignment.",
 	"namespace": "MCRI\\ChoiceColumns",
 	"authors": [
 		{
@@ -13,14 +13,14 @@
     "action-tags": [
         {
             "tag": "@CHOICE-COLUMNS",
-            "description": "Tag radio or checkbox fields with the action tag <span style='font-family:monospace'>@CHOICE-COLUMNS=?</span> to specify the number of columns the choices will be displayed in."
+            "description": "Tag radio or checkbox fields with the action tag <code>@CHOICE-COLUMNS=?</code> to specify the number of columns the choices will be displayed in (1-99).<br>Choices are placed into columns across-then-down for horizontal alignment, and down-then-across for vertical alignment."
         }
     ],
 	"system-settings": [ ],
 	"project-settings": [
         {
             "key": "tag-desc",
-            "name": "Tag radio or checkbox fields with the action tag <span style='font-family:monospace'>@CHOICE-COLUMNS=?</span> to specify the number of columns the choices will be displayed in.",
+            "name": "Tag radio or checkbox fields with the action tag <code>@CHOICE-COLUMNS=?</code> to specify the number of columns the choices will be displayed in.<br>Choices are placed into columns across-then-down for horizontal alignment, and down-then-across for vertical alignment.",
             "type": "descriptive"
         }
      ]
