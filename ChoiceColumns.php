@@ -64,55 +64,58 @@ class ChoiceColumns extends AbstractExternalModule
                 module.taggedFields = JSON.parse('<?=json_encode($this->taggedFields)?>');
                 
                 module.makeChoiceColumns = function(fieldname, nCols) {
-                    let enhancedChoices = null; let choices = null;
-                    let defaultChoiceContainer = $('tr[sq_id='+fieldname+']').find('[data-kind=field-value]');
-                    let cVert = $(defaultChoiceContainer).find('div.choicevert');
-                    let cHoriz = $(defaultChoiceContainer).find('span.choicehoriz');
+                let enhancedChoices = null; let choices = null;
+                let defaultChoiceContainer = $('tr[sq_id='+fieldname+']').find('[data-kind=field-value]');
+                let cVert = $(defaultChoiceContainer).find('div.choicevert');
+                let cHoriz = $(defaultChoiceContainer).find('span.choicehoriz');
 
-                    if (module.enhanced) {
-                        choices = $('tr[sq_id='+fieldname+']').find('div.enhancedchoice_wrapper').find('div.enhancedchoice');
-                    } else {
-                        choices = $.merge(cVert,cHoriz);
-                    }
+                if (module.enhanced) {
+                    choices = $('tr[sq_id='+fieldname+']').find('div.enhancedchoice_wrapper').find('div.enhancedchoice');
+                } else {
+                    choices = $.merge(cVert, cHoriz);
+                }
 
-                    let horizontal = (cHoriz.length>0);
-                    let nChoices = choices.length;
-                    let nRows = Math.trunc(nChoices/nCols) + ((nChoices % nCols) ? 1 : 0);
-                    console.log('field='+fieldname+', choices='+nChoices+' => columns='+nCols+', rows='+nRows);
+                // Filter out hidden choices
+                choices = choices.filter(function() {
+                    return !$(this).hasClass('hidden');
+                });
 
-                    // make new container
-                    let maxWidthPc = Math.trunc(100/nCols);
-                    let newContainer = '<div class="container enhancedchoice_wrapper" class="<?=static::CONTAINER_CLASS?>">';
-                    for (let row = 0; row < nRows; row++) {
-                        newContainer += '<div class="row" style="padding:0;">';
-                        for (let col = 0; col < nCols; col++) {
-                            newContainer += '<div class="cc-col" style="max-width:'+maxWidthPc+'%;" id="'+fieldname+'-r'+row+'c'+col+'"></div>';
-                        }
-                        newContainer += '</div>';
+                let horizontal = (cHoriz.length > 0);
+                let nChoices = choices.length;
+                let nRows = Math.trunc(nChoices / nCols) + ((nChoices % nCols) ? 1 : 0);
+                console.log('field=' + fieldname + ', choices=' + nChoices + ' => columns=' + nCols + ', rows=' + nRows);
+
+                // Make new container
+                let maxWidthPc = Math.trunc(100 / nCols);
+                let newContainer = '<div class="container enhancedchoice_wrapper <?=static::CONTAINER_CLASS?>">';
+                for (let row = 0; row < nRows; row++) {
+                    newContainer += '<div class="row" style="padding:0;">';
+                    for (let col = 0; col < nCols; col++) {
+                        newContainer += '<div class="cc-col" style="max-width:' + maxWidthPc + '%;" id="' + fieldname + '-r' + row + 'c' + col + '"></div>';
                     }
                     newContainer += '</div>';
+                }
+                newContainer += '</div>';
 
-                    $(defaultChoiceContainer).prepend(newContainer);
+                $(defaultChoiceContainer).prepend(newContainer);
 
-                    // move choices to new container
-                    $(choices).each(function(i,e) {
-                        let r; let c;
-                        if (horizontal) {
-                            // horizontal alignment -> across then down, r then c
-                            r = Math.trunc(i/nCols);
-                            c = i % nCols;
-                        } else {
-                            // vertical alignment -> down then across, c then r
-                            c = Math.trunc(i/nRows);
-                            r = i % nRows;
-                        }
-                        $(e).removeClass('col-12');
-                        $(e).removeClass('col-md-6');
-                        $(e).css('text-indent','0');
-                        $('[id="'+fieldname+'-r'+r+'c'+c+'"]').append($(e));
-                    });
-                    module.renderComplete = true;
-                };
+                // Move choices to new container
+                $(choices).each(function(i, e) {
+                    let r, c;
+                    if (horizontal) {
+                        r = Math.trunc(i / nCols);
+                        c = i % nCols;
+                    } else {
+                        c = Math.trunc(i / nRows);
+                        r = i % nRows;
+                    }
+                    $(e).removeClass('col-12 col-md-6');
+                    $(e).css('text-indent', '0');
+                    $('[id="' + fieldname + '-r' + r + 'c' + c + '"]').append($(e));
+                });
+                module.renderComplete = true;
+            };
+
                 module.afterRender(function() {
                     if (module.renderComplete) return;
                     $('div.<?=static::CONTAINER_CLASS?>').remove();
