@@ -14,6 +14,7 @@ Notes:
 * The tag is ignored for radio and checkbox fields that are part of a matrix.
 * Enhanced radio buttons and checkboxes are supported.
 * Specify an integer in the range 1-99 for the number of columns. Any other value will cause the tag to be ignored and the field display default behaviour.
+* Choices hidden through `@HIDECHOICE` or `@SHOWCHOICE` are removed from the column/row grid (i.e. there will not be blank placeholder spaces for hidden choices).
 * Piping into the action tag *is* supported, but only on page load. It is not dynamic within a page (i.e. is similar to other tags like `@HIDECHOICE` and `@IF`).
 
 ********************************************************************************

@@ -103,9 +103,11 @@ class ChoiceColumns extends AbstractExternalModule
                 $(choices).each(function(i, e) {
                     let r, c;
                     if (horizontal) {
+                        // horizontal alignment -> across then down, r then c
                         r = Math.trunc(i / nCols);
                         c = i % nCols;
                     } else {
+                        // vertical alignment -> down then across, c then r
                         c = Math.trunc(i / nRows);
                         r = i % nRows;
                     }
